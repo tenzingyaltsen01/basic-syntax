@@ -1,0 +1,8 @@
+title: Python Data Assessment Syntax Briefing
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+exclude:
+  - README.md
