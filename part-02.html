@@ -1,0 +1,80 @@
+<h1>3. Dictionaries</h1>
+<p>Extremely common for counting/grouping manually.</p>
+<div class="code-shell"><div class="highlight"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+
+<span class="n">d</span><span class="p">[</span><span class="s2">&quot;a&quot;</span><span class="p">]</span>
+
+<span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+<span class="n">d</span><span class="p">[</span><span class="s2">&quot;c&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Frequency counting:</p>
+<div class="code-shell"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xs</span><span class="p">:</span>
+    <span class="n">counts</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+</pre></div>
+</div>
+<p>Or:</p>
+<div class="code-shell"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+</pre></div>
+</div>
+<hr />
+<h1>4. Sets</h1>
+<p>Useful for unique values / membership / intersections.</p>
+<div class="code-shell"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+
+<span class="n">x</span> <span class="ow">in</span> <span class="n">s</span>
+
+<span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="n">a</span> <span class="o">|</span> <span class="n">b</span>       <span class="c1"># union</span>
+<span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span>       <span class="c1"># intersection</span>
+<span class="n">a</span> <span class="o">-</span> <span class="n">b</span>       <span class="c1"># difference</span>
+</pre></div>
+</div>
+<p>Unique values:</p>
+<div class="code-shell"><div class="highlight"><pre><span></span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">xs</span><span class="p">))</span>
+</pre></div>
+</div>
+<hr />
+<h1>5. Strings</h1>
+<div class="code-shell"><div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;hello world&quot;</span>
+
+<span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">s</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+<span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+<span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
+
+<span class="s2">&quot;,&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">])</span>
+
+<span class="n">s</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;hello&quot;</span><span class="p">)</span>
+<span class="n">s</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
+
+<span class="s2">&quot;a&quot;</span> <span class="ow">in</span> <span class="n">s</span>
+</pre></div>
+</div>
+<hr />
+<h1>6. Sorting with custom keys</h1>
+<p>Very useful.</p>
+<div class="code-shell"><div class="highlight"><pre><span></span><span class="n">pairs</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+
+<span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Descending:</p>
+<div class="code-shell"><div class="highlight"><pre><span></span><span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<hr />
