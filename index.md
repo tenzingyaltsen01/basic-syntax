@@ -3,10 +3,6 @@ layout: default
 title: Python Data Assessment Syntax Briefing
 ---
 
-Yes. For a **Python/data assessment**, I’d focus much more on being fluent with a compact set of syntax than on algorithms.
-
-Think of this as the “I must be able to write this without Claude” sheet.
-
 ## 1. Core Python
 
 ```python
@@ -1363,9 +1359,8 @@ Don't go down rabbit holes with:
 - SQL unless they explicitly mentioned it
 - obscure pandas functions
 
-For this interview, I would want you **very fluent with simple Python + NumPy + pandas + basic statistical reasoning** instead.
+## Crucial
 
-The crucial functions to be able to type without thinking are:
 
 ```python
 pd.read_csv
@@ -1399,8 +1394,261 @@ np.sqrt
 np.random.default_rng
 ```
 
-If you can use those confidently, you're no longer walking into the data assessment helpless.
 
-**The best thing you could do now is spend ~60–90 minutes actually typing this stuff rather than reading it.** Open a notebook, generate a random DataFrame, and reproduce the major sections above without copying.
+# ============================================
+# PANDAS SELECTION + INDEX SUMMARY SHEET
+# ============================================
 
-After that, I can give you a **realistic 60-minute data assessment from scratch**, where I provide the dataset and deliberately test `groupby`, filtering, returns, conditional means, correlation, missing values, and statistical interpretation.
+## --------------------------------------------
+## 1. SEE ROW / COLUMN LABELS
+## --------------------------------------------
+
+`df.columns`
+- all COLUMN labels/names
+- Example:
+- `Index(['ticker', 'price', 'volume'])`
+
+`df.index`
+- all ROW labels/index
+- Example:
+- `Index([0, 1, 2, 3])`
+
+## --------------------------------------------
+## 2. BASIC df[...]
+## --------------------------------------------
+
+`df["price"]`
+- one column by LABEL
+
+`df[["price", "volume"]]`
+- multiple columns by LABEL
+
+`df[df["price"] > 100]`
+- filter ROWS using a Boolean mask
+
+## --------------------------------------------
+## 3. .loc → LABELS / BOOLEAN
+## --------------------------------------------
+
+General:
+
+`df.loc[row_selection, column_selection]`
+
+`df.loc[0]`
+- row LABEL 0
+
+`df.loc[:, "price"]`
+- all rows, column LABEL `"price"`
+
+`df.loc[0, "price"]`
+- row label 0 + column label `"price"`
+
+`df.loc[df["price"] > 100, :]`
+- Boolean row selection + ALL columns
+
+`df.loc[df["price"] > 100, ["price", "volume"]]`
+- Boolean row selection + selected columns
+
+**NOTE — these are essentially equivalent:**
+
+`df[df["price"] > 100]`
+
+`df.loc[df["price"] > 100, :]`
+
+## --------------------------------------------
+## 4. .iloc → POSITIONS
+## --------------------------------------------
+
+General:
+
+`df.iloc[row_position, column_position]`
+
+`df.iloc[0]`
+- first row
+
+`df.iloc[:, 1]`
+- second column
+
+`df.iloc[0, 1]`
+- first row + second column
+
+`df.iloc[0:5, 0:2]`
+- first 5 rows + first 2 columns
+
+## --------------------------------------------
+## 5. LABELS vs POSITIONS
+## --------------------------------------------
+
+| | ROWS | COLUMNS |
+|---|---|---|
+| Labels | `df.index` | `df.columns` |
+| `.loc` | uses labels | uses labels |
+| Positions | `0,1,2...` | `0,1,2...` |
+| `.iloc` | uses positions | uses positions |
+
+Example:
+
+`df.columns`
+- `Index(['ticker', 'price', 'volume'])`
+
+`df.index`
+- `Index(['AAPL', 'MSFT', 'NVDA'])`
+
+`df.loc["AAPL", "price"]`
+
+- `"AAPL"` → index label
+- `"price"` → column label
+
+`df.iloc[0, 1]`
+
+- `0` → row position
+- `1` → column position
+
+## --------------------------------------------
+## 6. SET INDEX
+## --------------------------------------------
+
+Suppose:
+
+| | ticker | price | volume |
+|---|---|---:|---:|
+| 0 | AAPL | 200 | 1000 |
+| 1 | MSFT | 450 | 2000 |
+| 2 | NVDA | 120 | 3000 |
+
+`df = df.set_index("ticker")`
+
+- Make the `"ticker"` column become the ROW index
+
+Now:
+
+| ticker | price | volume |
+|---|---:|---:|
+| AAPL | 200 | 1000 |
+| MSFT | 450 | 2000 |
+| NVDA | 120 | 3000 |
+
+`df.index`
+- `Index(['AAPL', 'MSFT', 'NVDA'])`
+
+Now `.loc` can use those labels:
+
+`df.loc["AAPL"]`
+- AAPL row
+
+`df.loc["AAPL", "price"]`
+- AAPL row + price column
+
+## --------------------------------------------
+## 7. RESET INDEX
+## --------------------------------------------
+
+`df = df.reset_index()`
+
+- Turn the index back into a normal column
+- Restore default `0, 1, 2...` index
+
+## --------------------------------------------
+## QUICK MEMORY
+## --------------------------------------------
+
+`df.index`
+- → row labels
+
+`df.columns`
+- → column labels
+
+`df[...]`
+- → column selection OR Boolean row filtering
+
+`.loc[row, column]`
+- → LABELS / Boolean selections
+
+`.iloc[row, column]`
+- → integer POSITIONS
+
+`:`
+- → ALL
+
+`df.set_index("ticker")`
+- → column becomes row index
+
+`df.reset_index()`
+- → index becomes normal column
+
+## Central relationship
+
+| | ROW | COLUMN |
+|---|---|---|
+| `.loc` | `df.index` → LABELS | `df.columns` → LABELS |
+| `.iloc` | `0, 1, 2...` → POSITIONS | `0, 1, 2...` → POSITIONS |
+
+`set_index()` is essentially how you **choose what labels `.loc` can naturally use for the rows**.
+
+
+# ============================================
+# BASIC SYNTAX
+# ============================================
+
+```python
+import pandas as pd
+import numpy as np
+
+df = pd.read_csv("data.csv")
+
+df.head()
+df.describe()
+df.dtypes
+df.isna().sum()
+
+# select
+df["x"]
+df[["x", "y"]]
+
+# filter
+df[df["x"] > 0]
+df[(df["x"] > 0) & (df["y"] < 10)]
+
+# create a column
+df["z"] = df["x"] / df["y"]
+
+# basic statistics
+df["x"].mean()
+df["x"].median()
+df["x"].std()
+df["x"].corr(df["y"])
+
+# groups
+df.groupby("group")["x"].mean()
+
+df.groupby("group")["x"].agg(["mean", "std", "count"])
+
+# sorting
+df.sort_values("x", ascending=False)
+
+# time/order
+df["lag"] = df["x"].shift(1)
+df["change"] = df["x"].diff()
+df["return"] = df["price"].pct_change()
+
+# numpy
+np.mean(x)
+np.std(x)
+np.log(x)
+np.where(condition, value_if_true, value_if_false)
+```
+
+```python
+def f(x):
+    return x * 2
+
+for x in xs:
+    ...
+
+d = {}
+d[key] = d.get(key, 0) + 1
+
+[x for x in xs if x > 0]
+
+sorted(xs)
+```
