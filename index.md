@@ -1652,3 +1652,73 @@ d[key] = d.get(key, 0) + 1
 
 sorted(xs)
 ```
+
+
+# ============================================
+# Dates management
+# ============================================
+
+Once the column is datetime, use `.dt`:
+
+```python
+df["year"] = df["timestamp"].dt.year
+```
+
+Same pattern for other components:
+
+```python
+df["month"] = df["timestamp"].dt.month
+df["day"] = df["timestamp"].dt.day
+df["hour"] = df["timestamp"].dt.hour
+df["minute"] = df["timestamp"].dt.minute
+df["day_of_week"] = df["timestamp"].dt.day_name()
+```
+
+If it's currently a string, convert first:
+
+```python
+df["timestamp"] = pd.to_datetime(df["timestamp"])
+
+df["year"] = df["timestamp"].dt.year
+```
+
+## Important distinction
+
+The `%Y` stuff is mainly for **parsing/formatting**:
+
+```python
+pd.to_datetime(df["date"], format="%Y-%m-%d")
+```
+
+But to **extract** a component from an existing datetime:
+
+```python
+df["date"].dt.year
+df["date"].dt.month
+df["date"].dt.day
+```
+
+For your assessment, **`.dt.year`, `.dt.month`, `.dt.day`, and `.dt.hour` are definitely worth knowing.**
+
+
+
+# ============================================
+# Data cleaning
+# ============================================
+
+# Data Cleaning
+```python
+clean = df.drop_duplicates().copy()
+
+clean = clean.dropna(subset=["signal"])
+
+clean["volume"] = clean["volume"].fillna(
+    clean["volume"].median()
+)
+
+clean["timestamp"] = pd.to_datetime(clean["timestamp"])
+
+clean = clean.sort_values("timestamp").reset_index(drop=True)
+
+```
+
